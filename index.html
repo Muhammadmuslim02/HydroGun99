@@ -6,106 +6,36 @@
   <title>Su Elektrolizi - Sinematik</title>
   <style>
     body {
-      margin: 0; padding: 0; overflow: hidden;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
       background: black;
       font-family: 'Segoe UI', sans-serif;
       color: white;
       user-select: none;
     }
 
-    /* Arxa plan video - səhifə səviyyəsində */
     #bg-video {
       position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       object-fit: cover;
       z-index: -2;
       filter: brightness(0.6);
-      display: none; /* Başlanğıcda gizlidir, sonra oynayır */
     }
 
     audio#bg-music {
       display: none;
     }
 
-    /* Başlanğıc ekran */
-    #start-screen {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: transparent;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 10000;
-      color: #00ffff;
-      font-size: 3rem;
-      text-align: center;
-      user-select: none;
-      overflow: hidden;
-    }
-
-    /* Start ekranında arxa plan video */
-    #start-bg-video {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      object-fit: cover;
-      z-index: -1;
-      filter: brightness(0.3);
-    }
-
-    /* RGB yanıb sönən oynat düyməsi */
-    #start-button {
-      margin-top: 30px;
-      font-size: 2.5rem;
-      padding: 15px 50px;
-      border: none;
-      border-radius: 20px;
-      background: #00ffff;
-      color: black;
-      cursor: pointer;
-      user-select: none;
-      position: relative;
-      box-shadow:
-        0 0 5px #00ffff,
-        0 0 10px #00ffff,
-        0 0 20px #00ffff,
-        0 0 40px #00ffff;
-      animation: rgbGlow 3s infinite;
-      transition: background-color 0.3s ease;
-      font-weight: bold;
-      letter-spacing: 1.5px;
-    }
-
-    #start-button:hover {
-      background-color: #00dddd;
-    }
-
-    @keyframes rgbGlow {
-      0%, 100% { box-shadow:
-        0 0 5px #00ffff,
-        0 0 10px #00ffff,
-        0 0 20px #00ffff,
-        0 0 40px #00ffff; }
-      33% { box-shadow:
-        0 0 5px #ff0000,
-        0 0 10px #ff0000,
-        0 0 20px #ff0000,
-        0 0 40px #ff0000; }
-      66% { box-shadow:
-        0 0 5px #ff00ff,
-        0 0 10px #ff00ff,
-        0 0 20px #ff00ff,
-        0 0 40px #ff00ff; }
-    }
-
-    /* Səhnələr */
     .scene {
       position: absolute;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -121,9 +51,29 @@
       opacity: 1;
     }
 
+    /* Mobil üçün normal ölçü */
     h1, h2, p {
+      font-size: 1.6rem;
       text-shadow: 0 0 15px #00ffff;
       margin: 0.5rem 0;
+    }
+
+    /* PC üçün yazılar böyük olsun */
+    @media screen and (min-width: 1024px) {
+      h1 {
+        font-size: 3.5rem;
+      }
+      h2 {
+        font-size: 2.5rem;
+      }
+      p {
+        font-size: 1.8rem;
+      }
+
+      #start-button {
+        font-size: 2.5rem;
+        padding: 20px 50px;
+      }
     }
 
     .chemical {
@@ -162,7 +112,8 @@
     #video-frame {
       display: none;
       position: fixed;
-      top: 50%; left: 50%;
+      top: 50%;
+      left: 50%;
       transform: translate(-50%, -50%);
       width: 80%;
       max-width: 800px;
@@ -173,34 +124,67 @@
       box-shadow: 0 0 30px cyan;
       z-index: 999;
     }
+
+    #start-screen {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: #001f2f;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      color: #00ffff;
+      font-size: 3rem;
+      text-align: center;
+      user-select: none;
+    }
+
+    #start-button {
+      margin-top: 30px;
+      font-size: 2rem;
+      padding: 15px 40px;
+      border: none;
+      border-radius: 15px;
+      background: linear-gradient(270deg, #00ffff, #ff00ff, #00ffff);
+      background-size: 600% 600%;
+      color: black;
+      cursor: pointer;
+      box-shadow: 0 0 20px #00ffff;
+      user-select: none;
+      transition: background-position 3s ease infinite;
+      animation: rgbGlow 6s linear infinite;
+    }
+    #start-button:hover {
+      background-size: 700% 700%;
+    }
+
+    @keyframes rgbGlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
   </style>
 </head>
 <body>
 
-  <!-- Başlanğıc ekranı -->
   <div id="start-screen">
-    <video autoplay muted loop playsinline id="start-bg-video">
-      <source src="your-local-startscreen-video.mp4" type="video/mp4" />
-      Tarayıcınız video etiketini desteklemiyor.
-    </video>
     HydroGun Sistemine göz atalım
     <button id="start-button">▶️ Oynat</button>
   </div>
 
-  <!-- Arxa plan video -->
   <video id="bg-video" autoplay muted loop playsinline>
     <source src="your-local-background-video.mp4" type="video/mp4" />
   </video>
 
-  <!-- Arxa plan musiqi -->
   <audio id="bg-music" loop>
     <source src="your-local-audio.mp3" type="audio/mp3" />
   </audio>
 
-  <!-- Səhnələr -->
   <div id="scene0" class="scene">
     <h1>💧 Su Elektrolizi Nedir?</h1>
-    <p>⚡ Elektrik akımı ile suyun ayrışması sonucu hidrojen (H₂) ve oksijen (O₂) gazları oluşur.</p>
+    <p>⚡ Elektrik akımı ile suyun ayrışması sonucu hidrojen (H₂) və oksijen (O₂) gazları oluşur.</p>
   </div>
 
   <div id="scene1" class="scene">
@@ -215,7 +199,7 @@
 
   <div id="scene3" class="scene">
     <div class="bubble">💨💨</div>
-    <p>Kabarcıklar 💦 yükselir ve toplanır.</p>
+    <p>Kabarcıklar 💦 yükselir və toplanır.</p>
   </div>
 
   <div id="scene4" class="scene">
@@ -228,10 +212,9 @@
     <p><strong>Bizim yaptığımız <span style="color:cyan">HydroGun</span>’da bu sistemin işlemine dikkat edelim.</strong></p>
   </div>
 
-  <!-- Video son səhnədə göstəriləcək -->
   <div id="video-frame">
     <video width="100%" height="100%" controls>
-      <source src="your-local-electrolysis-video.mp4" type="video/mp4" />
+      <source src="your-local-electrolysis-video.mp4" type="video/mp4">
       Tarayıcınız video etiketini desteklemiyor.
     </video>
   </div>
@@ -293,14 +276,9 @@
   const startScreen = document.getElementById('start-screen');
   const startButton = document.getElementById('start-button');
   const bgMusic = document.getElementById('bg-music');
-  const bgVideo = document.getElementById('bg-video');
 
   startButton.addEventListener('click', () => {
     startScreen.style.display = 'none';
-
-    // Arxa plan videosunu göstər və oynat
-    bgVideo.style.display = 'block';
-    bgVideo.play().catch(() => {});
 
     // Musiqini başlat
     bgMusic.play().catch(() => {});
@@ -309,6 +287,5 @@
     playScenes();
   });
 </script>
-
 </body>
 </html>
