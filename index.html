@@ -15,21 +15,62 @@
       user-select: none;
     }
 
-    #bg-video {
+    /* Arxa plan videolar */
+    #start-bg-video, #bg-video {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
       object-fit: cover;
+      filter: brightness(0.4);
       z-index: -2;
-      filter: brightness(0.6);
     }
 
     audio#bg-music {
       display: none;
     }
 
+    /* Start ekran */
+    #start-screen {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      color: #00ffff;
+      font-size: 3rem;
+      text-align: center;
+      user-select: none;
+      padding: 0 20px;
+    }
+
+    #start-button {
+      margin-top: 30px;
+      font-size: 2rem;
+      padding: 15px 40px;
+      border: none;
+      border-radius: 15px;
+      background: #00ffff;
+      color: black;
+      cursor: pointer;
+      box-shadow: 0 0 20px #00ffff;
+      user-select: none;
+      transition: background-color 0.3s ease;
+      animation: rgbPulse 3s infinite alternate;
+    }
+    #start-button:hover {
+      background: #00dddd;
+    }
+
+    @keyframes rgbPulse {
+      0% { box-shadow: 0 0 5px #00ffff; }
+      50% { box-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff; }
+      100% { box-shadow: 0 0 5px #00ffff; }
+    }
+
+    /* Səhnələr */
     .scene {
       position: absolute;
       top: 0;
@@ -51,29 +92,9 @@
       opacity: 1;
     }
 
-    /* Mobil üçün normal ölçü */
     h1, h2, p {
-      font-size: 1.6rem;
       text-shadow: 0 0 15px #00ffff;
       margin: 0.5rem 0;
-    }
-
-    /* PC üçün yazılar böyük olsun */
-    @media screen and (min-width: 1024px) {
-      h1 {
-        font-size: 3.5rem;
-      }
-      h2 {
-        font-size: 2.5rem;
-      }
-      p {
-        font-size: 1.8rem;
-      }
-
-      #start-button {
-        font-size: 2.5rem;
-        padding: 20px 50px;
-      }
     }
 
     .chemical {
@@ -125,55 +146,27 @@
       z-index: 999;
     }
 
-    #start-screen {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: #001f2f;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 10000;
-      color: #00ffff;
-      font-size: 3rem;
-      text-align: center;
-      user-select: none;
-    }
-
-    #start-button {
-      margin-top: 30px;
-      font-size: 2rem;
-      padding: 15px 40px;
-      border: none;
-      border-radius: 15px;
-      background: linear-gradient(270deg, #00ffff, #ff00ff, #00ffff);
-      background-size: 600% 600%;
-      color: black;
-      cursor: pointer;
-      box-shadow: 0 0 20px #00ffff;
-      user-select: none;
-      transition: background-position 3s ease infinite;
-      animation: rgbGlow 6s linear infinite;
-    }
-    #start-button:hover {
-      background-size: 700% 700%;
-    }
-
-    @keyframes rgbGlow {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+    /* Responsive - PC üçün yazılar daha böyük */
+    @media screen and (min-width: 768px) {
+      h1 { font-size: 4rem; }
+      h2 { font-size: 3rem; }
+      p { font-size: 1.8rem; }
+      .chemical { font-size: 4rem; }
+      .reaction { font-size: 2.5rem; }
+      .bubble { font-size: 5rem; }
     }
   </style>
 </head>
 <body>
 
+  <!-- Start ekran -->
   <div id="start-screen">
     HydroGun Sistemine göz atalım
     <button id="start-button">▶️ Oynat</button>
+    <video id="start-bg-video" autoplay muted loop playsinline></video>
   </div>
 
+  <!-- Arxa plan videolar -->
   <video id="bg-video" autoplay muted loop playsinline>
     <source src="your-local-background-video.mp4" type="video/mp4" />
   </video>
@@ -182,9 +175,10 @@
     <source src="your-local-audio.mp3" type="audio/mp3" />
   </audio>
 
+  <!-- Səhnələr -->
   <div id="scene0" class="scene">
     <h1>💧 Su Elektrolizi Nedir?</h1>
-    <p>⚡ Elektrik akımı ile suyun ayrışması sonucu hidrojen (H₂) və oksijen (O₂) gazları oluşur.</p>
+    <p>⚡ Elektrik akımı ilə suyun ayrışması sonucu hidrojen (H₂) ve oksijen (O₂) gazları oluşur.</p>
   </div>
 
   <div id="scene1" class="scene">
@@ -199,7 +193,7 @@
 
   <div id="scene3" class="scene">
     <div class="bubble">💨💨</div>
-    <p>Kabarcıklar 💦 yükselir və toplanır.</p>
+    <p>Kabarcıklar 💦 yükselir ve toplanır.</p>
   </div>
 
   <div id="scene4" class="scene">
@@ -212,6 +206,7 @@
     <p><strong>Bizim yaptığımız <span style="color:cyan">HydroGun</span>’da bu sistemin işlemine dikkat edelim.</strong></p>
   </div>
 
+  <!-- Video çərçivəsi -->
   <div id="video-frame">
     <video width="100%" height="100%" controls>
       <source src="your-local-electrolysis-video.mp4" type="video/mp4">
@@ -222,7 +217,7 @@
 <script>
   const scenes = document.querySelectorAll('.scene');
   const texts = [
-    "Su elektrolizi nedir? Elektrik akımı ile suyun ayrışması sonucu hidrojen ve oksijen gazları oluşur.",
+    "Su elektrolizi nedir? Elektrik akımı ilə suyun ayrışması sonucu hidrojen ve oksijen gazları oluşur.",
     "Elektrik enerjisi su moleküllerini ayırır.",
     "Hidrojen gazı katotta, oksijen gazı anotta oluşur.",
     "Kabarcıklar yükselir ve toplanır.",
@@ -276,6 +271,10 @@
   const startScreen = document.getElementById('start-screen');
   const startButton = document.getElementById('start-button');
   const bgMusic = document.getElementById('bg-music');
+  const startBgVideo = document.getElementById('start-bg-video');
+
+  // Start ekranının arxa plan videosunu təyin et
+  startBgVideo.src = 'your-startscreen-video.mp4';
 
   startButton.addEventListener('click', () => {
     startScreen.style.display = 'none';
